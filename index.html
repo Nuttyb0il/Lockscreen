@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+ 
+<html>
+ 
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+        <link href="style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <meta charset="utf-8">
+    </head>
+     
+    <body>
+
+        <div id="foreground">
+            <h1 id="timer"></h1> <!-- Display the timer -->
+            <h2>Welcome.</h2>
+            <div class="button">
+                <i id="slideup" class="fas fa-arrow-up"></i>
+            </div>
+        </div>
+
+
+        <div id="background">
+            <h1>Background webpage</h1>
+            <h2>Project by Nutty1337</h2>
+            <h3>Free to use.</h3>
+        </div>
+
+
+       
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!-- Using jQuery for fade in / fade out animations-->
+         
+        <script>
+            //Check for pressed key function
+            document.onkeydown = function(key) {
+                key = key || window.event;
+                    if (key.keyCode == 13 ||key.keyCode == 38 ||key.keyCode == 27 || key.keyCode == 8) {
+                        $("#foreground").slideUp();
+                        $("#slideup").removeClass("fas fa-arrow-up");
+                        $("#slideup").addClass("fas fa-arrow-down"); //Change arrow direction
+                    }
+                    else if(key.keyCode == 40) {
+                        $("#foreground").slideDown();
+                        $("#slideup").removeClass("fas fa-arrow-down"); 
+                        $("#slideup").addClass("fas fa-arrow-up"); //Change arrow direction
+                        setRandomImage();
+                    }
+                
+            }
+            $(document).ready(function () {
+                $('#slideup').click(function () {
+                    $("#foreground").slideUp(); //Slide up the whole page
+                });
+            });
+        </script>
+        <script>
+            //Refresh time on lockscreen
+            setRandomImage(); // Call the function to instantly set a random background image (they're all free to use / CC0 license)
+            function setRandomImage() {
+                //Get a random number between 1 to 9 (because there are 8 images)
+                var random = Math.floor(Math.random() * (9 - 1)) + 1;
+                document.getElementById("foreground").style.backgroundImage = "url('images/" + random.toString() +".jpg')"; //Set a random background image
+            }
+            setTime(); //Call the function to instantly set time
+            //document.getElementById("background").style.visibility = "hidden";//Hide background
+            function formatCorrect(input) {
+                if(input.toString().length < 2) { //If the input is less than 2 char
+                    return "0" + input.toString(); //then we add a 0 at the beginning
+                }
+                return input; //And return it.
+            }
+            function setTime() {
+            var date = new Date();
+            var hours = formatCorrect(date.getHours()); //Get hours and format it correctly
+            var mins = formatCorrect(date.getMinutes()); //Get minutes and format it correctly
+            var seconds = formatCorrect(date.getSeconds()); //Get seconds and format it correctly
+            document.getElementById("timer").innerHTML = hours + ":" + mins + ":" + seconds; //Set time
+            }
+            setInterval(setTime,1000); //Refresh time every seconds.
+        </script>
+</body>
+ 
+</html>
